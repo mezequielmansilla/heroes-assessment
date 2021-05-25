@@ -9,6 +9,7 @@ import { MaterialModule } from '../material/material.module';
     CommonModule
   ],
   exports: [
+    CommonModule,
     MaterialModule
   ]
 })
