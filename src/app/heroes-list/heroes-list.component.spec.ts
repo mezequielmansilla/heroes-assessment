@@ -1,5 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 
+import { HeroesApiService } from '../sdk-heroes';
+import { DialogService, ToastService } from '../shared/services';
 import { HeroesListComponent } from './heroes-list.component';
 
 describe('HeroesListComponent', () => {
@@ -8,7 +12,24 @@ describe('HeroesListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeroesListComponent ]
+      imports: [RouterTestingModule],
+      declarations: [ HeroesListComponent ],
+      providers: [
+        {
+          provide: HeroesApiService,
+          useValue: {
+            getHeroList: () => of({ heroes: [ ]})
+          },
+        },
+        {
+          provide: ToastService,
+          useValue: {},
+        },
+        {
+          provide: DialogService,
+          useValue: {},
+        },
+      ],
     })
     .compileComponents();
   }));
@@ -22,4 +43,5 @@ describe('HeroesListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

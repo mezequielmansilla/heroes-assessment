@@ -1,5 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
+import { HeroesApiService } from '../sdk-heroes';
+import { DialogService, ToastService } from '../shared/services';
 import { HeroesDetailsComponent } from './heroes-details.component';
 
 describe('HeroesDetailsComponent', () => {
@@ -8,9 +12,23 @@ describe('HeroesDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeroesDetailsComponent ]
-    })
-    .compileComponents();
+      imports: [RouterTestingModule, ReactiveFormsModule],
+      declarations: [HeroesDetailsComponent],
+      providers: [
+        {
+          provide: HeroesApiService,
+          useValue: {},
+        },
+        {
+          provide: ToastService,
+          useValue: {},
+        },
+        {
+          provide: DialogService,
+          useValue: {},
+        },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,13 +1,15 @@
 {
   "name": "heroes-assessment",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "test:debug": "ng test --browsers=Chrome --source-map"
   },
   "private": true,
   "dependencies": {
