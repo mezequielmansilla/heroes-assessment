@@ -27,6 +27,11 @@ export class HeroesApiService {
     return of({ heroes });
   }
 
+  addHero(hero: HeroDetails): Observable<HeroDetails> {
+    this.heroes.push(hero);
+    return of(hero);
+  }
+
   /** Update a hero */
   updateHero(hero: HeroDetails): Observable<HeroDetails> {
     const heroIndex = this.heroes.findIndex((h) => h.id === hero.id);
@@ -43,7 +48,7 @@ export class HeroesApiService {
     const heroIndex = this.heroes.findIndex((h) => h.id === id);
     let removed = false;
     if (heroIndex >= 0) {
-      this.heroes.splice(0, heroIndex);
+      this.heroes.splice(heroIndex, 1);
       removed = true;
     }
     return of(removed);
