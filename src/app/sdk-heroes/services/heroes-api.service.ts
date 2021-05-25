@@ -23,7 +23,8 @@ export class HeroesApiService {
 
   /** Return hero by similar name */
   getHeroListByName(searchName: string): Observable<HeroList> {
-    const heroes = this.heroes.filter((h) => h.name.includes(searchName));
+    const filterName = searchName.toLowerCase();
+    const heroes = this.heroes.filter((h) => h.name.toLocaleLowerCase().includes(filterName));
     return of({ heroes });
   }
 

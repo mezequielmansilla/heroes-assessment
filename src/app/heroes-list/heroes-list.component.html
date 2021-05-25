@@ -2,7 +2,11 @@
   <mat-icon>add</mat-icon>
   Agregar Heroe
 </button>
-
+<br>
+<mat-form-field>
+  <mat-label>Filtrar heroes por nombre</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar heroes por nombre" #input>
+</mat-form-field>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!--- Note that these columns can be defined in any order.

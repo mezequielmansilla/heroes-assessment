@@ -33,6 +33,21 @@ export class HeroesListComponent implements OnInit {
     });
   }
 
+  private herosDataInitByName(name: string): void {
+    this.herosApiService.getHeroListByName(name).subscribe((heroList) => {
+      this.dataSource.data = heroList.heroes;
+    });
+  }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    if (filterValue) {
+      this.herosDataInitByName(filterValue);
+    } else {
+      this.herosDataInit();
+    }
+  }
+
   onAddHero(): void {
     this.router.navigate([AppRoutesEnum.HEROES_DETAILS]);
   }

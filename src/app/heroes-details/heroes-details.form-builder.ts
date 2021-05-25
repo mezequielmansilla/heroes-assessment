@@ -7,7 +7,7 @@ export class HeroDetailsFormBuilder {
   static create(fb: FormBuilder): FormGroup {
     return fb.group({
       [HeroesDetailsFormNamesEnum.ID]: fb.control('', Validators.required),
-      [HeroesDetailsFormNamesEnum.NAME]: fb.control('', Validators.required),
+      [HeroesDetailsFormNamesEnum.NAME]: fb.control('', [Validators.required, Validators.minLength(3)]),
     });
   }
 

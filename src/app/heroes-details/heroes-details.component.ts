@@ -1,9 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ReflectiveInjector,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 
-import { HeroesApiService } from '../sdk-heroes';
+import { HeroDetails, HeroesApiService } from '../sdk-heroes';
 import { Unsubscriber } from '../shared/classes';
 import { AppParamsEnum, AppRoutesEnum } from '../shared/enums';
 import { ToastService } from '../shared/services';
@@ -47,8 +52,23 @@ export class HeroesDetailsComponent implements OnInit, OnDestroy {
     this.router.navigate([AppRoutesEnum.HEROES_LIST]);
   }
 
+  private getHero(): HeroDetails {
+    if (this.heroForm.invalid) {
+      const keys = Object.keys(this.heroForm.controls);
+      this.heroForm.markAsTouched();
+      keys.forEach((key) => {
+        this.heroForm.get(key).markAsTouched();
+      });
+      return;
+    }
+    return HeroDetailsFormBuilder.getValue(this.heroForm);
+  }
+
   onCreate(): void {
-    const hero = HeroDetailsFormBuilder.getValue(this.heroForm);
+    const hero = this.getHero();
+    if (!hero) {
+      return;
+    }
     this.heroApiService.addHero(hero).subscribe(
       () => {
         this.onCancel();
@@ -61,7 +81,10 @@ export class HeroesDetailsComponent implements OnInit, OnDestroy {
   }
 
   onUpdate(): void {
-    const hero = HeroDetailsFormBuilder.getValue(this.heroForm);
+    const hero = this.getHero();
+    if (!hero) {
+      return;
+    }
     this.heroApiService.updateHero(hero).subscribe(
       () => {
         this.onCancel();
@@ -73,11 +96,24 @@ export class HeroesDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
+  hasRequiredError(formControlName): boolean {
+    const hasError = this.heroForm.get(formControlName).hasError('required');
+    return hasError;
+  }
+
+  hasMinLengthError(formControlName): boolean {
+    const hasError = this.heroForm.get(formControlName).hasError('minlength');
+    return hasError;
+  }
+
   private createForm(): void {
     this.heroForm = HeroDetailsFormBuilder.create(this.fb);
   }
 
   private heroDataInit(): void {
+    if (!this.heroId) {
+      return;
+    }
     this.heroApiService.getHeroDetails(this.heroId).subscribe((hero) => {
       HeroDetailsFormBuilder.setValue(this.heroForm, hero);
     });
