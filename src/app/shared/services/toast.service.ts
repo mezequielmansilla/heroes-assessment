@@ -8,15 +8,15 @@ export class ToastService {
   constructor(private snackBar: MatSnackBar) {}
 
   success(message: string): void {
-    this.snackBar.open(message);
+    this.snackBar.open(`[SUCCESS] ${message}`);
   }
   error(message: string): void {
-    this.snackBar.open(message);
+    this.snackBar.open(`[ERROR] ${message}`);
   }
   warning(message: string): void {
-    this.snackBar.open(message);
+    this.snackBar.open(`[WARNING] ${message}`);
   }
   info(message: string): void {
-    this.snackBar.open(message);
+    this.snackBar.open(`[INFO] ${message}`);
   }
 }

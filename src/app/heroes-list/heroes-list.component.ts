@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 import { filter, switchMap } from 'rxjs/operators';
 
 import { HeroDetails, HeroesApiService } from '../sdk-heroes';
-import { DialogService } from '../shared/services';
+import { AppRoutesEnum } from '../shared/enums';
+import { DialogService, ToastService } from '../shared/services';
 
 @Component({
   selector: 'app-heroes-list',
@@ -15,8 +17,10 @@ export class HeroesListComponent implements OnInit {
   dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = ['id', 'name', 'actions'];
   constructor(
+    private router: Router,
     private herosApiService: HeroesApiService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private toastService: ToastService,
   ) {}
 
   ngOnInit(): void {
@@ -30,18 +34,11 @@ export class HeroesListComponent implements OnInit {
   }
 
   onAddHero(): void {
-    const hero = new HeroDetails();
-    hero.id = 10;
-    hero.name = 'Test add';
-    this.herosApiService.addHero(hero).subscribe(() => {
-      this.herosDataInit();
-    });
+    this.router.navigate([AppRoutesEnum.HEROES_DETAILS]);
   }
 
   onEditHero(hero: HeroDetails): void {
-    this.herosApiService.updateHero(hero).subscribe(() => {
-      this.herosDataInit();
-    });
+    this.router.navigate([AppRoutesEnum.HEROES_DETAILS, hero.id]);
   }
 
   onDeleteHero(hero: HeroDetails): void {
@@ -52,7 +49,10 @@ export class HeroesListComponent implements OnInit {
         switchMap(() => this.herosApiService.deleteHero(hero.id))
       )
       .subscribe(() => {
+        this.toastService.success('Heroe eliminado');
         this.herosDataInit();
+      }, () => {
+        this.toastService.error('Heroe no eliminado');
       });
   }
 }

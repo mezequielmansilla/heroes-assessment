@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { SdkHeroesModule } from './sdk-heroes';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +16,7 @@ import { SdkHeroesModule } from './sdk-heroes';
     CoreModule,
     MaterialModule,
     SdkHeroesModule,
+    MatSnackBarModule,
     AppRoutingModule,
     BrowserAnimationsModule,
   ],

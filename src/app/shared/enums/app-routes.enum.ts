@@ -3,3 +3,7 @@ export enum AppRoutesEnum {
   HEROES_LIST = 'heroes',
   HEROES_DETAILS = 'heroes-details',
 }
+
+export enum AppParamsEnum {
+  HERO_ID = 'heroId',
+}
